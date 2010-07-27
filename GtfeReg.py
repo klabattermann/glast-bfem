@@ -10,7 +10,7 @@ class GtfeReg :
     allMsk  = 7
     
     def __init__(self, tem):
-        self.reg = array.array('l', [0,0,0,0,0,0])
+        self.reg = array.array('L', [0,0,0,0,0,0])
         self.calDac = 10
         self.thresDac = 30
         self.side = 0
