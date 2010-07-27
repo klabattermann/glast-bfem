@@ -22,7 +22,7 @@ class GtfeReg :
     
     def maskAll (self, maskType) : 
 
-        print maskType, self.trigMsk, maskType & self.trigMsk
+        print(maskType, self.trigMsk, maskType & self.trigMsk)
         if maskType & self.chanMsk:
             self.reg[2] = self.reg[3] = 0x0
         if maskType & self.trigMsk :
@@ -32,7 +32,7 @@ class GtfeReg :
 
     def unMaskAll (self, maskType) : 
 
-        print maskType, self.trigMsk, maskType & self.trigMsk
+        print(maskType, self.trigMsk, maskType & self.trigMsk)
         if maskType & self.chanMsk:
             self.reg[2] = self.reg[3] = 0xffffffff
         if maskType & self.trigMsk :
@@ -114,9 +114,9 @@ class GtfeReg :
                               self.reg[2], self.reg[3], self.reg[4], self.reg[5])
 
     def show(self):
-        print '%x %x %x %x %x %x' %(self.reg[0],self.reg[1],
-                                    self.reg[2],self.reg[3],self.reg[4],self.reg[5])
-        print "dac thres = %d,  calib %d, side %d" % (self.thresDac, self.calDac, self.side)
+        print('%x %x %x %x %x %x' %(self.reg[0],self.reg[1],
+                                    self.reg[2],self.reg[3],self.reg[4],self.reg[5]))
+        print("dac thres = %d,  calib %d, side %d" % (self.thresDac, self.calDac, self.side))
         
 
 
@@ -128,7 +128,7 @@ if __name__ == '__main__':
     a.qinjAmpl(60)
     a.readDir(12)
     a.show()
-    print a.chanMsk
+    print(a.chanMsk)
     
 
 

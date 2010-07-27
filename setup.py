@@ -9,6 +9,7 @@ date: June 22 2010
 """
 
 from distutils.core import setup, Extension
+import distutils.msvccompiler
 
 tkrTem_module = Extension('_tkrTem',
   sources=['pyTkrTem_wrap.c', 'vmeAdrs.c', 'load.c', 'tkrCmd.c', 'temBoard.c', 'dataFifo.c'],
