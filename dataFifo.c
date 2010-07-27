@@ -72,7 +72,7 @@ int tkr_dumpFifo (char *fileName, int fileAppend, int writeL1tFifo)
         
         fwrite ( header, 4, 3, fp);
     }
-    
+    printf ("Writing L1T Fifo");    
   
     /* ------------------------------------------- */
     /*     Write L1T fifo                          */
@@ -89,7 +89,7 @@ int tkr_dumpFifo (char *fileName, int fileAppend, int writeL1tFifo)
 
   
     count = 0;
-
+    
     while ( ( *status & TKR_FIFO_EMPTY) != 0 ) {
         
         data = *t_tkrFifo;
@@ -98,7 +98,7 @@ int tkr_dumpFifo (char *fileName, int fileAppend, int writeL1tFifo)
         // if ( data == 0xbffebfff ) break;
         
         count++;
-        // if ( count > 40000 ) break;
+         if ( count > 40000 ) break;
         
     }
     

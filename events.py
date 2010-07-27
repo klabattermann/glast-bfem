@@ -15,9 +15,9 @@ def main(argv=None):
     parser = OptionParser()
 
     parser.add_option("--tup", help="output dir")
-    parser.add_option("--evts", type="int", default=-1, help="output dir",
+    parser.add_option("--evts", type="int", default=-1, #help="output dir",
                       help="show only EVTS events")
-    parser.add_option("--skip", type="int", default=0, help="output dir",
+    parser.add_option("--skip", type="int", default=0, #help="output dir",
                       help="skip the first SKIP events")
     parser.add_option("--headeronly", action="store_true", default=False,
                       help="print only the header no hits or GTRC info")

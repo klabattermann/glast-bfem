@@ -26,7 +26,7 @@ def qinTest (cable, tem, fee) :
         fee.readDir(1)
 
     fee.maskAll(fee.allMsk)
-    fee.unMask(fee.chanMsk | fee.trigMsk | fee.calibMsk, 12)
+    fee.unMask(fee.chanMsk | fee.trigMsk | fee.calibMsk, 32) #used to be chan 12
     fee.threshold(30)
     fee.qinjAmpl(60)
     fee.set(31,31,cable)
@@ -37,5 +37,5 @@ def qinTest (cable, tem, fee) :
     sleep(0.5)
 
     tem.tkrCmd_strobe(31,31,cable)
-    tem.temTreq()
+    #tem.temTreq()
     tem.tkr_dumpFifo ("tkr", 0, 0)
