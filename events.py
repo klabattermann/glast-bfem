@@ -59,7 +59,7 @@ def main(argv=None):
 
         if options.hits :
             event.printHitList ()
-            command = input ("q to quit > ")
+            command = raw_input ("q to quit > ")
             if command == 'q' :
                 break
             

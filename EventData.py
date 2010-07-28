@@ -39,7 +39,7 @@ class EventData :
         try:
             self.fp = open (fileName, "rb")
         except IOError:
-            print('*** error opening file ***')
+            print '*** error opening file ***'
             sys.exit (4)
 
 	    
@@ -51,21 +51,21 @@ class EventData :
         data = struct.unpack('L', data_s)
         
         if data[0] == 0x23456789:
-            print("found FIFO header")
+            print "found FIFO header"
         
             data_s = fp.read(4)
             data_length = struct.unpack('L', data_s)[0]
-            print("ffh length", data_length)
+            print "ffh length", data_length
 
             data_s = fp.read(4)
             data = struct.unpack('L', data_s)
-            print("ffh data", data[0])
+            print "ffh data", data[0]
             
             if data_length != 3:
-                print("seek:", 8)
+                print "seek:", 8
                 fp.seek(8)
         else:
-            print("no header found, rewind")
+            print "no header found, rewind"
             fp.seek(0)
 
         return 
@@ -147,18 +147,18 @@ class EventData :
                 layerInd = layerInd + 1
                 #print "  ", ctrlAddr, cableId, layerInd
 
-                if (cableId, layerInd) not in self.stat :
+                if not self.stat.has_key((cableId, layerInd)) :
                     self.stat[(cableId, layerInd)]  = [ctrlAddr,nrHits,-1,-1]
 		    
             elif tag == 0x4000  :        #  error/tot flag
                 errorFlag = (data16 >> 10) & 0x1
                 tot = data16 & 0x03ff
 
-                if (cableId, layerInd) in self.stat :
+                if self.stat.has_key((cableId, layerInd)) :
                     self.stat[(cableId, layerInd)][2]  = tot
                     self.stat[(cableId, layerInd)][3]  = errorFlag
             else:
-                print(" error no key found ")
+                print " error no key found "
 
 
     # =====================================================================
@@ -166,19 +166,19 @@ class EventData :
 
     def status (self, header_only=False) :
         
-        print(" ==== status  event nr:", self.eventNr, " nr of hist:", len(self.hitList), \
-              " layers:", len(self.stat))
+        print " ==== status  event nr:", self.eventNr, " nr of hist:", len(self.hitList), \
+              " layers:", len(self.stat)
 
         if header_only:
             return
             
-        keyList = list(self.stat.keys())
+        keyList = self.stat.keys()
         keyList.sort()
 
-        print(" (gtrc-adrs, nrHits, layerInd, cableId,    ToT, erroFlag)")
+        print " (gtrc-adrs, nrHits, layerInd, cableId,    ToT, erroFlag)"
         for key in keyList :
-            print("gtrc  ", self.stat[key][0], self.stat[key][1], key[1], key[0], "     ", \
-                  self.stat[key][2], self.stat[key][3])
+            print "gtrc  ", self.stat[key][0], self.stat[key][1], key[1], key[0], "     ", \
+                  self.stat[key][2], self.stat[key][3]
 
 
     # ============================================================================================
@@ -189,7 +189,7 @@ class EventData :
         try:
             self.fpTup = open (fileName, "w")
         except IOError:
-            print('*** error opening tuple file ***', fileName)
+            print '*** error opening tuple file ***', fileName
             sys.exit (4)	
 
 

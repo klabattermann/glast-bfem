@@ -95,7 +95,7 @@ int tkr_dumpFifo (char *fileName, int fileAppend, int writeL1tFifo)
         data = *t_tkrFifo;
         fwrite ( &data, 4, 1, fp);
         
-        // if ( data == 0xbffebfff ) break;
+         if ( data == 0xbffebfff ) break;
         
         count++;
          if ( count > 40000 ) break;
