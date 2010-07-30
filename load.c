@@ -29,7 +29,7 @@ int tkrLoadDataFifo (char *fileName)
 
     regOrig = tkr_rread(reg);
     
-	printf("brdStat, brdCntl %x %x\n", *t_brdStat, *t_brdCntl);
+    printf("brdStat, brdCntl %x %x\n", *t_brdStat, *t_brdCntl);
     
     regOrig = regOrig & TKR_DATA_NOT & TKR_N_CONF_NOT & TKR_CLOCK_NOT;
     tkr_rwrite(reg, regOrig);
