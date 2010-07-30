@@ -93,7 +93,3 @@ int tkrVMEClose()
     return CloseVXIlibrary();
 }
 
-
-
-
-

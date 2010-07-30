@@ -1,5 +1,4 @@
 
-
 /*                   */
 /*    VME Access     */ 
 /*                   */
@@ -94,42 +93,4 @@ void rstOn(int mode);
 //extern int testLoop(int loops, int delay);
 
 //extern int runLoop (int nEvt, int runNr, int mode, int delay);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
