@@ -35,7 +35,10 @@ def qinTest (cable, tem, fee) :
     tem.tkrCmd_rstGtfeFifo(31,31,cable)
 
     sleep(0.5)
-
+    tem.temStatus()
+    
     tem.tkrCmd_strobe(31,31,cable)
+    tem.temStatus()
+    
     tem.temTreq()
     tem.tkr_dumpFifo ("tkr", 0, 0)
