@@ -14,7 +14,7 @@
 #define sleep(mu)  usleep(mu)
 #endif
 
-unsigned long tkr_rread(unsigned long *);
+//unsigned long tkr_rread(unsigned long *);
 
 /* --------------------------------- */
 /*  read and write TEM vme register  */
@@ -38,6 +38,18 @@ int tkr_rwrite(unsigned long *adr, unsigned long value) {
     
     return 1;
 }
+
+/* ------------------------------------------------ */
+/*  read and write variable sleep TEM vme register  */
+/* ------------------------------------------------ */
+
+
+int tkr_rwrite_wait(unsigned long *adr, unsigned long value, int sleep_mu) {
+    *adr = value;
+    sleep(sleep_mu);
+    return 1;
+}
+
 
 /* ------------------------------------- */
 /* initialize the TEM VME address space  */
