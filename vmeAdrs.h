@@ -5,6 +5,7 @@ tkrVMEInit (unsigned long);
 int tkrVMEClose();
 unsigned long tkr_rread(unsigned long *);
 int tkr_rwrite(unsigned long *, unsigned long);
+int tkr_rwrite_wait(unsigned long *, unsigned long, int);
 int tkrLoadDataFifo (char *);
 int tkrLoadL1tFifo (char *);
 int tkrLoadFinalize();

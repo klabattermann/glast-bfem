@@ -6,7 +6,6 @@
 
 static const long a = 12;
 
-
 /* ---------------------------------------- */
 /*   load data fpga                         */
 /* ---------------------------------------- */
@@ -15,7 +14,7 @@ int tkrLoadDataFifo (char *fileName)
 {
    
     FILE *cfp;
-    int x,y;
+    int x;
     int loopDelay = 250;
 
     
@@ -94,7 +93,7 @@ int tkrLoadL1tFifo(char *fileName)
 {
    
     FILE  *cfp;
-    int x,y;
+    int x;
   
     unsigned long *reg = t_brdCntl;
     unsigned long *status = t_brdStat;

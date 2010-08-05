@@ -45,7 +45,7 @@ tem.tkrLoadFinalize()
 tem.temReset()
 tem.temR()
 
-tem.temEnableCable(0) 
+#tem.temEnableCable(0) 
 
 
 
