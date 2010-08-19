@@ -49,7 +49,10 @@ int tkrLoadDataFifo (char *fileName)
         return(-1);
     }
     
-    if ( ( tkr_rread(status) & TKR_CONF_DONE ) !=0 )  return(-2);
+    if ( (*status & TKR_CONF_DONE) !=0 ){
+        return(-2);
+    }
+    
     regOrig = regOrig | TKR_N_CONF;
     tkr_rwrite(reg, regOrig);
 
@@ -130,7 +133,7 @@ int tkrLoadL1tFifo(char *fileName)
         return(-1);
     }
 
-	if ( (tkr_rread(status) & L1T_CONF_DONE) != 0 ) { 
+	if ( (*status & L1T_CONF_DONE) != 0 ) { 
         return(-2);
     }
   
