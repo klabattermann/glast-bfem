@@ -7,8 +7,8 @@
 #define TKR_CLOCK 0x400
 #define TKR_CLOCK_NOT 0xfffffbff
 
-#define TKR_CONF_DONE 0X4
-#define TKR_STATUS 0X8
+#define TKR_CONF_DONE 0x4
+#define TKR_STATUS 0x8
 #define TKR_RESET 0x4
 #define TKR_FIFO_EMPTY 0x11110000
 #define TKR_FIFO_HALF_FULL 0x22220000

@@ -1,9 +1,7 @@
-
-
 #include <stdio.h>
 #include <windows.h>
 #include "vmeAdrs.h"
-#include "glast.h"
+//#include "glast.h"
 
 /* --------------------------------------------
 
@@ -183,8 +181,8 @@ void temRstPulse ()
 
 void temRstDataFifo ()
 {
-    tkr_rwrite(t_brdCntl, 0x1b01);
-    tkr_rwrite(t_brdCntl, 0x1b03);
+    tkr_rwrite_wait(t_brdCntl, 0x1b01, 10);
+    tkr_rwrite_wait(t_brdCntl, 0x1b03, 10);
 }
 
 
