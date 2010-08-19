@@ -16,19 +16,19 @@ try:
 except OSError, e:
   print >>sys.stderr, "Execution failed:", e
   sys.exit()
+  
+tem = tkrTem
+tem.tkrVMEInit(0x8000000)
 
-tkrTem.tkrVMEInit(0x8000000)
-
-status = tkrTem.tkrLoadL1tFifo("conf/l1t2_1.ttf")
-print 'Status L1t FIFO: ', status
-
-status = tkrTem.tkrLoadDataFifo("conf/tkrrdout2_1.ttf")
+status = tem.tkrLoadDataFifo("conf/tkrrdout2_1.ttf")
 print 'Status FPGA DATA: ', status
 
+status = tem.tkrLoadL1tFifo("conf/l1t2_1.ttf")
+print 'Status L1t FIFO: ', status
 
-tkrTem.tkrLoadFinalize()
+tem.tkrLoadFinalize()
 
-#close = tkrTem.tkrVMEClose()
+#close = tem.tkrVMEClose()
 #print 'VME Close status ', close
 
 #Success
