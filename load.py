@@ -32,8 +32,8 @@ print 'open VXI lib: ', stat
 #  load FPGA register
 #
 
-dataFifo_ttf = 'conf/tkrrdout2_1.ttf' #os.path.expandvars("$HOME") + "/glast/presto/conf/tkrrdout2_1.ttf"
 l1tFifo_ttf = 'conf/l1t2_1.ttf' #os.path.expandvars("$HOME") + "/glast/presto/conf/l1t2_1.ttf"
+dataFifo_ttf = 'conf/tkrrdout2_1.ttf' #os.path.expandvars("$HOME") + "/glast/presto/conf/tkrrdout2_1.ttf"
 
 stat = tem.tkrLoadDataFifo(dataFifo_ttf)
 print stat,  dataFifo_ttf
@@ -45,7 +45,7 @@ tem.tkrLoadFinalize()
 tem.temReset()
 tem.temR()
 
-tem.temEnableCable(0) 
+#tem.temEnableCable(0) 
 
 
 

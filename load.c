@@ -10,7 +10,6 @@
 
 static const long a = 12;
 
-
 /* ---------------------------------------- */
 /*   load data fpga                         */
 /* ---------------------------------------- */
@@ -19,7 +18,7 @@ int tkrLoadDataFifo (char *fileName)
 {
    
     FILE *cfp;
-    int x,y;
+    int x;
     int loopDelay = 250;
 
     
@@ -75,10 +74,12 @@ int tkrLoadDataFifo (char *fileName)
         
         regOrig = ( regOrig & TKR_CLOCK_NOT );
         tkr_rwrite(reg, regOrig);
+        /*printf("stat %x\n", tkr_rread(status)); */
     }
     
-    if ( (tkr_rread(status) & TKR_CONF_DONE) == 0 )  {
-        printf(" status = %x \n", status);
+    if ( (*status & TKR_CONF_DONE) == 0 )  {
+        printf(" status = %x \n", tkr_rread(status));
+        printf("Data loading failed\n");
         printf(" bits = %d %d\n", bits, bits1);
         return(-3);
     }
@@ -98,7 +99,7 @@ int tkrLoadL1tFifo(char *fileName)
 {
    
     FILE  *cfp;
-    int x,y;
+    int x;
   
     unsigned long *reg = t_brdCntl;
     unsigned long *status = t_brdStat;
@@ -111,7 +112,7 @@ int tkrLoadL1tFifo(char *fileName)
   
     regOrig = tkr_rread(reg);
 
-	//printf("brdStat, brdCntl %x %x\n", *t_brdStat, *t_brdCntl);
+	printf("brdStat, brdCntl %x %x\n", *t_brdStat, *t_brdCntl);
 
     regOrig = regOrig & L1T_DATA_NOT & L1T_N_CONF_NOT & L1T_CLOCK_NOT;
     tkr_rwrite(reg, regOrig);
@@ -122,7 +123,6 @@ int tkrLoadL1tFifo(char *fileName)
         return(-1);
     }
 
-	//printf("brdStat, brdCntl %x %x\n", *t_brdStat, *t_brdCntl);
 
     Sleep(10);
 
@@ -163,9 +163,12 @@ int tkrLoadL1tFifo(char *fileName)
     }
     
     if ( (*status & L1T_CONF_DONE) == 0) {
+        printf(" status = %x \n", tkr_rread(status));
+        printf("L1t loading failed\n");
+        printf ("bits=%ld  %ld\n", bits, bits1);
         return(-3);
     }
-    
+    printf(" status = %x \n", tkr_rread(status));  
     printf ("bits=%ld  %ld\n", bits, bits1);
     return(0);
     
