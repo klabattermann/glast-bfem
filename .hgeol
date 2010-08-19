@@ -1,0 +1,12 @@
+[patterns]
+Windows.txt = CRLF
+Unix.txt = LF
+**.txt = native
+**.py = native
+**.c = native
+**.h = native
+**.proj = CRLF
+
+
+[repository]
+native = CRLF
