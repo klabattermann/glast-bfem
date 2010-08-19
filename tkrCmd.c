@@ -3,7 +3,6 @@
 #ifdef WIN32
 #include <windows.h>
 #endif
-
 #include "vmeAdrs.h"
 
 void temEnableCable(int cableNr);

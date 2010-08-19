@@ -1,11 +1,8 @@
-
-
 #include <stdio.h>
 #ifdef WIN32
 #include <windows.h>
 #endif
 #include "vmeAdrs.h"
-
 
 
 /* ----------------------------------- 
@@ -159,8 +156,8 @@ void temRstPulse ()
 
 void temRstDataFifo ()
 {
-    tkr_rwrite(t_brdCntl, 0x1b01);
-    tkr_rwrite(t_brdCntl, 0x1b03);
+    tkr_rwrite_wait(t_brdCntl, 0x1b01, 10);
+    tkr_rwrite_wait(t_brdCntl, 0x1b03, 10);
 }
 
 
@@ -180,12 +177,37 @@ void temInit ()
     *t_mskyr1 = 0x0;
 }
 
-void temStatus()
-{
+void temStatus() {
   
-    unsigned long *status = t_brdStat;
+    unsigned long status, cmd;
+    status = tkr_rread(t_brdStat);
+    cmd = tkr_rread(t_brdCntl);
+
+    printf(" status %x\n", status);
+  
+    if ( (status & TKR_STATUS) == 0 ) printf("\nFPGA program error");
+    if ( (status & TKR_CONF_DONE) == 0 ) printf("\nFPGA not programmed");
+    
+    printf("\nThe board is ");
+    if ( (cmd & 1) != 0 ) printf("not ");
+    printf("reset");
+    
+    printf("\nTKRrigger is  ");
+    if ( (cmd & TKR_RESET) == 0 ) printf("not ");
+    printf("reset");
+    
+    printf("\nFIFO ");
+    if ( (status & TKR_FIFO_EMPTY) == 0 ) printf("is empty");
+    else if ( (status & TKR_FIFO_HALF_FULL) == 0) printf("is half full");
+    else if ( (status & TKR_FIFO_FULL) == 0 ) printf("is full");
+    else if ( (status & TKR_FIFO_HAS_DATA) == TKR_FIFO_HAS_DATA) printf("has data");
+    else printf("is out of sync ,%lx", status);
+    printf("\n");
+
+        
+/*    unsigned long *status = t_brdStat;
     unsigned long *cmd = t_brdCntl;
-    unsigned long *result;
+    //unsigned long *result;
     
     printf(" status %x\n", *status);
     
@@ -207,7 +229,7 @@ void temStatus()
     else if ( (*status & TKR_FIFO_HAS_DATA) == TKR_FIFO_HAS_DATA) printf("has data");
     else printf("is out of sync ,%lx",*status);
     printf("\n");
-    
+    */
 }
 
 /* ----------------
@@ -254,12 +276,12 @@ void temReset()
     origCmd = tkr_rread(t_brdCntl);    
     printf ("tem reset: brd-cntl = %x\n", origCmd);
     
-    trk_rwrite(t_brdCntl, origCmd | 0x4);
-    trk_rwrite(t_brdCntl, origCmd | 0x1);
-    trk_rwrite(t_brdCntl, origCmd | 0x6);
-    trk_rwrite(t_brdCntl, origCmd | 0x2);
+    tkr_rwrite_wait(t_brdCntl, origCmd | 0x4, 10);
+    tkr_rwrite_wait(t_brdCntl, origCmd | 0x1, 10);
+    tkr_rwrite_wait(t_brdCntl, origCmd | 0x6, 10);
+    tkr_rwrite_wait(t_brdCntl, origCmd | 0x2, 10);
     
-    trk_rwrite(t_brdCntl, 0x1b03);    
+    tkr_rwrite_wait(t_brdCntl, 0x1b03, 10);    
 }
 
 void temR ()
@@ -269,22 +291,22 @@ void temR ()
     regValue = tkr_rread(t_brdCntl);
     printf ("reset temR%x\n", regValue);
     regValue &= ~0x2;
-    tkr_rwrite(t_brdCntl, regValue);
+    tkr_rwrite_wait(t_brdCntl, regValue, 10);
 
     regValue = tkr_rread(t_brdCntl);
     printf ("reset temR %x\n", regValue);
     regValue |= 0x2;
-    tkr_rwrite(t_brdCntl, regValue);
+    tkr_rwrite_wait(t_brdCntl, regValue, 10);
 
     regValue = tkr_rread(t_brdCntl);
     printf ("reset temR %x\n", regValue);
     regValue &= ~0x1;
-    tkr_rwrite(t_brdCntl, regValue);
+    tkr_rwrite_wait(t_brdCntl, regValue, 10);
 
     regValue = tkr_rread(t_brdCntl);
     printf ("reset temR %x\n", regValue);
     regValue |= 0x1;
-    tkr_rwrite(t_brdCntl, regValue);
+    tkr_rwrite_wait(t_brdCntl, regValue, 10);
 
     printf ("reset temR %x\n", tkr_rread(t_brdCntl));
 }
@@ -296,9 +318,17 @@ void temR ()
 /* -------------------- */
 
 void temTreq ()
-{
+{ 
     tkr_rwrite(t_tstMisc, tkr_rread(t_tstMisc) | 0x80);
     tkr_rwrite(t_tstMisc, tkr_rread(t_tstMisc) & ~0x80);
+  
+  tstMisc = tkr_rread(t_tstMisc);
+  tkr_rwrite_wait(t_tstMisc, tstMisc |= 0x80, 10);
+  tstMisc = tkr_rread(t_tstMisc);
+  tkr_rwrite_wait(t_tstMisc, tstMisc &= ~0x80, 10);
+    
+  //tkr_rwrite(t_tstMisc, tkr_rread(t_tstMisc) |= 0x80);
+  //tkr_rwrite(t_tstMisc, tkr_rread(t_tstMisc) &= ~0x80);
 }
 
 void temTreq1 ()
