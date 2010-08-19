@@ -1,25 +1,21 @@
-
-#ifdef WIN32
-#include "nivxi.h"
-#include <windows.h>
-#else
-#include "nivxi_wk.h"
-#endif
-
-
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "vmeAdrs.h"
 
+//#ifdef WIN32
+#include "nivxi.h"
+#include <windows.h>
+//#else
+//#include "nivxi_wk.h"
+//#endif
 
-#ifdef WIN32
+/*#ifdef WIN32
 #define sleep(mu)  Sleep(mu)
 #else
 #include <unistd.h>
 #define sleep(mu)  usleep(mu)
 #endif
-
+*/
 //unsigned long tkr_rread(unsigned long *);
 
 /* ---------------- */
@@ -67,7 +63,8 @@ const unsigned long L1T_FIFO_HAS_DATA  = 0x1000;
 unsigned long tkr_rread(unsigned long *adr) {
     
     unsigned long value = *adr;
-    sleep(1);
+    
+    Sleep(1);
     
     return value;
 }
@@ -93,7 +90,7 @@ int tkr_rwrite(unsigned long *adr, unsigned long value) {
 
 int tkr_rwrite_wait(unsigned long *adr, unsigned long value, int sleep_mu) {
     *adr = value;
-    sleep(sleep_mu);
+    Sleep(sleep_mu);
     return 1;
 }
 
@@ -143,7 +140,7 @@ void tkrVMEInit (unsigned long vmeBaseAdrs)
 
     t_lcntlReg = t_brdBase + 0xa0;
 
-    TKR_DATA = 0x100;
+/*    TKR_DATA = 0x100;
     TKR_DATA_NOT = 0xfffffeff;
     TKR_DATA_SHIFT = 8;
     TKR_N_CONF = 0x200;
@@ -169,7 +166,7 @@ void tkrVMEInit (unsigned long vmeBaseAdrs)
     L1T_FIFO_EMPTY = 0x1000;
     L1T_FIFO_HALF_FULL = 0x2000;
     L1T_FIFO_FULL = 0x4000;
-    L1T_FIFO_HAS_DATA = 0x1000;
+    L1T_FIFO_HAS_DATA = 0x1000;*/
 }
 
 

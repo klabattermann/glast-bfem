@@ -318,9 +318,8 @@ void temR ()
 /* -------------------- */
 
 void temTreq ()
-{ 
-    tkr_rwrite(t_tstMisc, tkr_rread(t_tstMisc) | 0x80);
-    tkr_rwrite(t_tstMisc, tkr_rread(t_tstMisc) & ~0x80);
+{
+  unsigned long tstMisc;
   
   tstMisc = tkr_rread(t_tstMisc);
   tkr_rwrite_wait(t_tstMisc, tstMisc |= 0x80, 10);
