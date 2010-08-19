@@ -1,12 +1,19 @@
 
 
 #include <stdio.h>
-#ifdef WIN32
+//#ifdef WIN32
 #include <windows.h>
-#endif
+//#endif
 
 #include "vmeAdrs.h"
 
+
+/*#ifdef WIN32
+#define sleep(mu)  Sleep(mu)
+#else
+#include <unistd.h>
+#define sleep(mu)  usleep(mu)
+#endif*/
 
 static const long a = 12;
 
@@ -123,9 +130,6 @@ int tkrLoadL1tFifo(char *fileName)
         return(-1);
     }
 
-
-    Sleep(10);
-
 	if ( (tkr_rread(status) & L1T_CONF_DONE) != 0 ) { 
         return(-2);
     }
@@ -191,6 +195,7 @@ int tkrLoadFinalize ()
     
     printf (" finalize loading %x\n",  tkr_rread(t_brdCntl));
     
+    return 0;
 }
 
 

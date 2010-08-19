@@ -1,8 +1,8 @@
 
 #include <stdio.h>
-#ifdef WIN32
+//#ifdef WIN32
 #include <windows.h>
-#endif
+//#endif
 #include "vmeAdrs.h"
 
 void temEnableCable(int cableNr);

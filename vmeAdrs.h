@@ -121,7 +121,7 @@ extern unsigned long *t_tkrcmd26;
 extern unsigned long *t_tkrcmd27;
 
 
-extern unsigned long TKR_DATA;
+/*extern unsigned long TKR_DATA;
 extern unsigned long TKR_DATA_NOT;
 extern unsigned long TKR_DATA_SHIFT;
 extern unsigned long TKR_N_CONF;
@@ -148,7 +148,7 @@ extern unsigned long L1T_FIFO_EMPTY;
 extern unsigned long L1T_FIFO_HALF_FULL;
 extern unsigned long L1T_FIFO_FULL;
 extern unsigned long L1T_FIFO_HAS_DATA;
-
+*/
 
 #else
 #define VME_ADDRESS_H
@@ -224,7 +224,7 @@ unsigned long *t_tkrcmd26;
 unsigned long *t_tkrcmd27;
 
 
-unsigned long TKR_DATA;
+/*unsigned long TKR_DATA;
 unsigned long TKR_DATA_NOT;
 unsigned long TKR_DATA_SHIFT;
 unsigned long TKR_N_CONF;
@@ -250,7 +250,7 @@ unsigned long L1T_STATUS;
 unsigned long L1T_FIFO_EMPTY;
 unsigned long L1T_FIFO_HALF_FULL;
 unsigned long L1T_FIFO_FULL;
-unsigned long L1T_FIFO_HAS_DATA;
+unsigned long L1T_FIFO_HAS_DATA;*/
 
 #endif   
 
