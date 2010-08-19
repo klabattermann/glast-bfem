@@ -1,7 +1,6 @@
 
 #include <stdio.h>
 #include <windows.h>
-
 #include "vmeAdrs.h"
 
 void temEnableCable(int cableNr);

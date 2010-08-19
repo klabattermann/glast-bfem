@@ -1,5 +1,4 @@
 
-
 #include "nivxi.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,11 +30,15 @@ unsigned long tkr_rread(unsigned long *adr) {
 
 int tkr_rwrite(unsigned long *adr, unsigned long value) {
     
+    //int i,j;
     /* printf("write %x %x \n", adr, value); */
     
     *adr = value;
-    //sleep(1);
+/*    for ( i=0; i<5000; i++ ) {
+        j += i*i;
+    }*/   
     
+    //sleep(1);
     return 1;
 }
 
@@ -96,6 +99,36 @@ tkrVMEInit (unsigned long vmeBaseAdrs)
     t_tstMisc = t_brdBase + 0x94;
     
     t_tcntlreg = t_brdBase + 0xa0;
+
+    t_lcntlReg = t_brdBase + 0xa0;
+
+    TKR_DATA = 0x100;
+    TKR_DATA_NOT = 0xfffffeff;
+    TKR_DATA_SHIFT = 8;
+    TKR_N_CONF = 0x200;
+    TKR_N_CONF_NOT = 0xfffffdff;
+    TKR_CLOCK = 0x400;
+    TKR_CLOCK_NOT = 0xfffffbff;
+    TKR_CONF_DONE = 0x4;
+    TKR_STATUS = 0x8;
+    TKR_RESET = 0x4;
+    TKR_FIFO_EMPTY = 0x11110000;
+    TKR_FIFO_HALF_FULL = 0x22220000;
+    TKR_FIFO_FULL = 0x44440000;
+    TKR_FIFO_HAS_DATA = 0x11110000;
+    L1T_DATA = 0x800;
+    L1T_DATA_NOT = 0xfffff7ff;
+    L1T_DATA_SHIFT = 11;
+    L1T_N_CONF = 0x1000;
+    L1T_N_CONF_NOT = 0xffffefff;
+    L1T_CLOCK = 0x2000;
+    L1T_CLOCK_NOT = 0xffffdfff;
+    L1T_CONF_DONE = 0X1;
+    L1T_STATUS = 0X2;
+    L1T_FIFO_EMPTY = 0x1000;
+    L1T_FIFO_HALF_FULL = 0x2000;
+    L1T_FIFO_FULL = 0x4000;
+    L1T_FIFO_HAS_DATA = 0x1000;
 }
 
 

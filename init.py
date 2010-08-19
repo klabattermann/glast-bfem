@@ -19,11 +19,12 @@ except OSError, e:
 
 tkrTem.tkrVMEInit(0x8000000)
 
+status = tkrTem.tkrLoadL1tFifo("conf/l1t2_1.ttf")
+print 'Status L1t FIFO: ', status
+
 status = tkrTem.tkrLoadDataFifo("conf/tkrrdout2_1.ttf")
 print 'Status FPGA DATA: ', status
 
-status = tkrTem.tkrLoadL1tFifo("conf/l1t2_1.ttf")
-print 'Status L1t FIFO: ', status
 
 tkrTem.tkrLoadFinalize()
 
