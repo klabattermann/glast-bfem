@@ -1,75 +1,51 @@
 
 
 #include <stdio.h>
+#ifdef WIN32
 #include <windows.h>
+#endif
 #include "vmeAdrs.h"
-#include "glast.h"
 
-/* --------------------------------------------
-
-void temSetCheckSum (int value)
-int temGetCheckSum ()
-void temEnableCable (int cableNr)
-void temDisableCable (int cableNr)
-int temIsCableEnabled (int cableNr)
-void temRstLastGtrc ()
-void temLastGtrc (int addr, int cable)
-void temRstPulse ()
-void temRstDataFifo ()
-void temInit ()
-void temStatus()
-void temRegister()
-void temMaskReg()
-void temReset()
-void temR ()
-void temTreq ()
-void temTreq1 ()
-void temDF()
-void rstOn(int mode)
-
-
-   ----------------------------------------- */
 
 
 /* ----------------------------------- 
    Check Sum 
    ----------------------------------- */
-   
+
 
 void temSetCheckSum (int value)
 {
     
-  unsigned long tmpCblen = *t_cblen;
+    unsigned long tmpCblen = *t_cblen;
 
-  if ( value >= 1 ) {
-    tmpCblen |= 0x8000;
-  } else {
-    tmpCblen &= 0x7fff;
-  }
+    if ( value >= 1 ) {
+        tmpCblen |= 0x8000;
+    } else {
+        tmpCblen &= 0x7fff;
+    }
+    
+    /*tmpCblen = (value >= 1) ? tmpCblen |= 0x8000 : tmpCblen &= 0x7fff; */
 
-  /*tmpCblen = (value >= 1) ? tmpCblen |= 0x8000 : tmpCblen &= 0x7fff; */
-
-  *t_cblen = tmpCblen;
-
-  printf(" Check sum: %x \n", tmpCblen);
-  return;
-
+    *t_cblen = tmpCblen;
+    
+    printf(" Check sum: %x \n", tmpCblen);
+    
 }
 
 
 int temGetCheckSum ()
 {
-  
-  unsigned long tmpCblen = *t_cblen;
-  
-  if ( (tmpCblen & 0x8000) != 0 ) {
-    printf(" check sum is on \n");
-    return 1;
-  }
-  else {
-    printf(" check sum is off \n");
-    return 0;
-  }    
+    
+    unsigned long tmpCblen = *t_cblen;
+    
+    if ( (tmpCblen & 0x8000) != 0 ) {
+        printf(" check sum is on \n");
+        return 1;
+    }
+    else {
+        printf(" check sum is off \n");
+        return 0;
+    }    
 }
 
 
@@ -80,13 +56,13 @@ int temGetCheckSum ()
 void temEnableCable (int cableNr)
 {
   
-  unsigned long enableBit;
+    unsigned long enableBit;
 
-  if ( cableNr < -1 || cableNr > 7 ) return;
+    if ( cableNr < -1 || cableNr > 7 ) return;
   
-  enableBit = (cableNr == -1) ?  enableBit = 0x0ff  :  0x1 << cableNr;  
-
-  *t_cblen |= enableBit;
+    enableBit = (cableNr == -1) ?  enableBit = 0x0ff  :  0x1 << cableNr;  
+    
+    *t_cblen |= enableBit;
 
 }
 
@@ -94,34 +70,34 @@ void temEnableCable (int cableNr)
 void temDisableCable (int cableNr)
 {
 
-  unsigned long tmpCblen;
-  unsigned long disBit = 0x0;
-  
-  if ( cableNr < -1 || cableNr > 7 ) return;
+    unsigned long tmpCblen;
+    unsigned long disBit = 0x0;
     
-  if ( cableNr > -1 ) disBit = (0xff & ~(0x1 << cableNr));
-  disBit |= 0x8000;
+    if ( cableNr < -1 || cableNr > 7 ) return;
   
+    if ( cableNr > -1 ) disBit = (0xff & ~(0x1 << cableNr));
+    disBit |= 0x8000;
+    
 
-  tmpCblen = *t_cblen;
-  tmpCblen &= disBit;
- 
-  *t_cblen = tmpCblen;
+    tmpCblen = *t_cblen;
+    tmpCblen &= disBit;
+    
+    *t_cblen = tmpCblen;
 }
 
 
 int temIsCableEnabled (int cableNr)
 {
 
-  unsigned long tmpCblen = *t_cblen;
-  if ( (tmpCblen & 0x1 << cableNr) != 0 ) return 1;
-  return 0;
-
+    unsigned long tmpCblen = *t_cblen;
+    if ( (tmpCblen & 0x1 << cableNr) != 0 ) return 1;
+    return 0;
+    
 }
 
 void temEnabledCables (unsigned long *cblenReg)
 {
-  *cblenReg = *t_cblen;
+    *cblenReg = *t_cblen;
 }
 
 
@@ -134,7 +110,7 @@ void temEnabledCables (unsigned long *cblenReg)
 
 void temRstLastGtrc ()
 {
-
+    
     int i;
     for ( i = 0; i < 4; i++ ) {
         *(t_lastCntrl + i) = 0x0;
@@ -157,10 +133,10 @@ void temLastGtrc (int addr, int cable)
     if ( cable < 0 || cable >  7 ) return;
     
     if ( cable % 2 == 1 ) { 
-      addrBits = addrBits << 8;
-      maskBits = maskBits << 8;
+        addrBits = addrBits << 8;
+        maskBits = maskBits << 8;
     }
-
+    
     lastGtrc = *(t_lastCntrl + ind);
     lastGtrc &= ~maskBits;
     lastGtrc |= addrBits;
@@ -210,9 +186,9 @@ void temStatus()
     unsigned long *status = t_brdStat;
     unsigned long *cmd = t_brdCntl;
     unsigned long *result;
-  
+    
     printf(" status %x\n", *status);
-  
+    
     if ( (*status & TKR_STATUS) == 0 ) printf("\nFPGA program error");
     if ( (*status & TKR_CONF_DONE) == 0 ) printf("\nFPGA not programmed");
     
@@ -274,7 +250,7 @@ void temMaskReg()
 void temReset()
 {
     unsigned long origCmd = 0;
-
+    
     origCmd = tkr_rread(t_brdCntl);    
     printf ("tem reset: brd-cntl = %x\n", origCmd);
     
@@ -289,7 +265,7 @@ void temReset()
 void temR ()
 {
     unsigned long regValue = 0;
-
+    
     regValue = tkr_rread(t_brdCntl);
     printf ("reset temR%x\n", regValue);
     regValue &= ~0x2;
@@ -321,8 +297,8 @@ void temR ()
 
 void temTreq ()
 {
-    tkr_rwrite(t_tstMisc, tkr_rread(t_tstMisc) |= 0x80);
-    tkr_rwrite(t_tstMisc, tkr_rread(t_tstMisc) &= ~0x80);
+    tkr_rwrite(t_tstMisc, tkr_rread(t_tstMisc) | 0x80);
+    tkr_rwrite(t_tstMisc, tkr_rread(t_tstMisc) & ~0x80);
 }
 
 void temTreq1 ()

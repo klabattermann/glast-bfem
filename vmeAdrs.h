@@ -1,7 +1,8 @@
 /* vmeAdrs header file */
 
 //prototyped functions
-tkrVMEInit (unsigned long);
+
+void tkrVMEInit (unsigned long);
 int tkrVMEClose();
 unsigned long tkr_rread(unsigned long *);
 int tkr_rwrite(unsigned long *, unsigned long);
@@ -10,6 +11,40 @@ int tkrLoadL1tFifo (char *);
 int tkrLoadFinalize();
 
 void temEnabledCables (unsigned long *cblenReg);
+
+
+/* CONSTANTS */
+
+extern const int TKR_DATA_SHIFT;
+extern const int L1T_DATA_SHIFT;
+
+extern const unsigned long TKR_DATA;
+extern const unsigned long TKR_DATA_NOT;
+extern const unsigned long TKR_N_CONF;
+extern const unsigned long TKR_N_CONF_NOT;
+extern const unsigned long TKR_CLOCK;
+extern const unsigned long TKR_CLOCK_NOT;
+
+extern const unsigned long TKR_CONF_DONE;
+extern const unsigned long TKR_STATUS;
+extern const unsigned long TKR_RESET;
+extern const unsigned long TKR_FIFO_EMPTY;
+extern const unsigned long TKR_FIFO_HALF_FULL;
+extern const unsigned long TKR_FIFO_FULL;
+extern const unsigned long TKR_FIFO_HAS_DATA;
+
+extern const unsigned long L1T_DATA;
+extern const unsigned long L1T_DATA_NOT;
+extern const unsigned long L1T_N_CONF;
+extern const unsigned long L1T_N_CONF_NOT; 
+extern const unsigned long L1T_CLOCK;    
+extern const unsigned long L1T_CLOCK_NOT;     
+extern const unsigned long L1T_CONF_DONE;     
+extern const unsigned long L1T_STATUS;     
+extern const unsigned long L1T_FIFO_EMPTY;    
+extern const unsigned long L1T_FIFO_HALF_FULL;
+extern const unsigned long L1T_FIFO_FULL;
+extern const unsigned long L1T_FIFO_HAS_DATA;
 
 #ifdef VME_ADDRESS_H
 
@@ -45,7 +80,7 @@ extern unsigned long *t_rngacdlh;
 extern unsigned long *t_rngdelay;
 extern unsigned long *t_gps_timecap1;
 extern unsigned long *t_gps_timecap2;
-extern unsigned long *t_tcntlreg;
+extern unsigned long *t_tcntlReg;
 
 extern unsigned long *t_lastCntrl;
 extern unsigned long *t_lastCntlrs10;
@@ -87,8 +122,6 @@ extern unsigned long *t_tkrcmd27;
 
 #else
 #define VME_ADDRESS_H
-
-
 unsigned long *t_brdBase;
 
 unsigned long *t_brdCntl;
@@ -121,7 +154,7 @@ unsigned long *t_rngacdlh;
 unsigned long *t_rngdelay;
 unsigned long *t_gps_timecap1;
 unsigned long *t_gps_timecap2;
-unsigned long *t_tcntlreg;
+unsigned long *t_tcntlReg;
 
 unsigned long *t_lastCntrl;
 unsigned long *t_lastCntlrs10;

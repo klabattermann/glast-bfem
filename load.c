@@ -1,7 +1,11 @@
+
+
 #include <stdio.h>
+#ifdef WIN32
 #include <windows.h>
+#endif
+
 #include "vmeAdrs.h"
-#include "glast.h"
 
 
 static const long a = 12;
