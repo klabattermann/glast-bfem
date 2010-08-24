@@ -120,36 +120,6 @@ extern unsigned long *t_tkrcmd25;
 extern unsigned long *t_tkrcmd26;
 extern unsigned long *t_tkrcmd27;
 
-
-/*extern unsigned long TKR_DATA;
-extern unsigned long TKR_DATA_NOT;
-extern unsigned long TKR_DATA_SHIFT;
-extern unsigned long TKR_N_CONF;
-extern unsigned long TKR_N_CONF_NOT;
-extern unsigned long TKR_CLOCK;
-extern unsigned long TKR_CLOCK_NOT;
-extern unsigned long TKR_CONF_DONE;
-extern unsigned long TKR_STATUS;
-extern unsigned long TKR_RESET;
-extern unsigned long TKR_FIFO_EMPTY;
-extern unsigned long TKR_FIFO_HALF_FULL;
-extern unsigned long TKR_FIFO_FULL;
-extern unsigned long TKR_FIFO_HAS_DATA;
-extern unsigned long L1T_DATA;
-extern unsigned long L1T_DATA_NOT;
-extern unsigned long L1T_DATA_SHIFT;
-extern unsigned long L1T_N_CONF;
-extern unsigned long L1T_N_CONF_NOT;
-extern unsigned long L1T_CLOCK;
-extern unsigned long L1T_CLOCK_NOT;
-extern unsigned long L1T_CONF_DONE;
-extern unsigned long L1T_STATUS;
-extern unsigned long L1T_FIFO_EMPTY;
-extern unsigned long L1T_FIFO_HALF_FULL;
-extern unsigned long L1T_FIFO_FULL;
-extern unsigned long L1T_FIFO_HAS_DATA;
-*/
-
 #else
 #define VME_ADDRESS_H
 unsigned long *t_brdBase;
@@ -222,35 +192,6 @@ unsigned long *t_tkrcmd24;
 unsigned long *t_tkrcmd25;
 unsigned long *t_tkrcmd26;
 unsigned long *t_tkrcmd27;
-
-
-/*unsigned long TKR_DATA;
-unsigned long TKR_DATA_NOT;
-unsigned long TKR_DATA_SHIFT;
-unsigned long TKR_N_CONF;
-unsigned long TKR_N_CONF_NOT;
-unsigned long TKR_CLOCK;
-unsigned long TKR_CLOCK_NOT;
-unsigned long TKR_CONF_DONE;
-unsigned long TKR_STATUS;
-unsigned long TKR_RESET;
-unsigned long TKR_FIFO_EMPTY;
-unsigned long TKR_FIFO_HALF_FULL;
-unsigned long TKR_FIFO_FULL;
-unsigned long TKR_FIFO_HAS_DATA;
-unsigned long L1T_DATA;
-unsigned long L1T_DATA_NOT;
-unsigned long L1T_DATA_SHIFT;
-unsigned long L1T_N_CONF;
-unsigned long L1T_N_CONF_NOT;
-unsigned long L1T_CLOCK;
-unsigned long L1T_CLOCK_NOT;
-unsigned long L1T_CONF_DONE;
-unsigned long L1T_STATUS;
-unsigned long L1T_FIFO_EMPTY;
-unsigned long L1T_FIFO_HALF_FULL;
-unsigned long L1T_FIFO_FULL;
-unsigned long L1T_FIFO_HAS_DATA;*/
 
 #endif   
 

@@ -26,7 +26,6 @@ int tkrLoadDataFifo (char *fileName)
    
     FILE *cfp;
     int x;
-    int loopDelay = 250;
 
     
     unsigned long *reg = t_brdCntl; 
@@ -175,7 +174,7 @@ int tkrLoadL1tFifo(char *fileName)
         printf ("bits=%ld  %ld\n", bits, bits1);
         return(-3);
     }
-    printf(" status = %x \n", tkr_rread(status));  
+     
     printf ("bits=%ld  %ld\n", bits, bits1);
     return(0);
     
