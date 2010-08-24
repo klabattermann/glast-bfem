@@ -184,6 +184,7 @@ void temStatus() {
     cmd = tkr_rread(t_brdCntl);
 
     printf(" status %x\n", status);
+    printf(" control %x\n", cmd);
   
     if ( (status & TKR_STATUS) == 0 ) printf("\nFPGA program error");
     if ( (status & TKR_CONF_DONE) == 0 ) printf("\nFPGA not programmed");
@@ -289,7 +290,7 @@ void temR ()
     unsigned long regValue = 0;
     
     regValue = tkr_rread(t_brdCntl);
-    printf ("reset temR%x\n", regValue);
+    printf ("reset temR %x\n", regValue);
     regValue &= ~0x2;
     tkr_rwrite_wait(t_brdCntl, regValue, 10);
 
