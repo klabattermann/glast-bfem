@@ -92,7 +92,7 @@ class EventData :
 
             data0_16 = (data[0] >> 16) & 0xffff
             data1_16 = data[0] & 0xffff
-            #print '  d %x  %x' % (data0_16, data1_16)
+            print '  d %x  %x' % (data0_16, data1_16)
                         
 	
             if data0_16 == 0xbffe and data1_16 == 0xbfff:  # end-of-event

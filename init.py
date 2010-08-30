@@ -9,7 +9,7 @@ data: June 22 2010
 """
 
 import sys, subprocess
-import GtfeReg
+import GtfeReg, qt
 import tkrTem as tem
 
 #must run RESMAN to remove sys.fail from VME board before initializing VME and loading FIFO
@@ -38,6 +38,7 @@ tem.temRstDataFifo()
 tem.temRegister()
 fee = GtfeReg.GtfeReg(tem)
 
+qt.qinTest(0, tem, fee)
 
 
 #close = tem.tkrVMEClose()
