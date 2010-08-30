@@ -326,6 +326,8 @@ void temTreq ()
   tkr_rwrite_wait(t_tstMisc, tstMisc |= 0x80, 10);
   tstMisc = tkr_rread(t_tstMisc);
   tkr_rwrite_wait(t_tstMisc, tstMisc &= ~0x80, 10);
+  tstMisc = tkr_rread(t_tstMisc);
+  printf ("tstsMisc: %x\n",  tstMisc);
     
   //tkr_rwrite(t_tstMisc, tkr_rread(t_tstMisc) |= 0x80);
   //tkr_rwrite(t_tstMisc, tkr_rread(t_tstMisc) &= ~0x80);

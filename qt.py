@@ -14,7 +14,7 @@ def qinTest (cable, tem, fee) :
     tem.tkrCmd_rstGtrc(31,cable)
     tem.tkrCmd_gtrcReg(31,cable,25,0)
     
-    sleep(0.5)
+    sleep(1)
 
 
     tem.tkrCmd_rstGtfe(31,31,cable)
@@ -26,7 +26,9 @@ def qinTest (cable, tem, fee) :
         fee.readDir(1)
 
     fee.maskAll(fee.allMsk)
-    fee.unMask(fee.chanMsk | fee.trigMsk | fee.calibMsk, 12)
+    fee.unMask(fee.chanMsk | fee.trigMsk | fee.calibMsk, 1)
+    #fee.unMaskRange(fee.chanMsk | fee.trigMsk | fee.calibMsk, 1, 12, 1)
+
     fee.threshold(30)
     fee.qinjAmpl(60)
     fee.set(31,31,cable)
@@ -34,9 +36,14 @@ def qinTest (cable, tem, fee) :
 
     tem.tkrCmd_rstGtfeFifo(31,31,cable)
 
-    sleep(0.5)
+    sleep(1)
     tem.temStatus()
     
-    tem.tkrCmd_strobe(31,31,cable)
-    #tem.temTreq()
+    #tem.tkrCmd_strobe(31,31,cable)
+    
+    sleep(1)
+    
+    tem.temTreq()
+    
+    tem.temStatus()
     #tem.tkr_dumpFifo ("tkr", 0, 0)
