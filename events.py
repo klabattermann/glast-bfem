@@ -23,6 +23,8 @@ def main(argv=None):
                       help="print only the header no hits or GTRC info")
     parser.add_option("--hits", action="store_true", default=False,
                       help="print the hits")
+    parser.add_option("-v", "--verbose", action="count", default=0,
+                      help="set verbosity")
 
     if argv:
         (options, args) = parser.parse_args(argv)
@@ -30,7 +32,7 @@ def main(argv=None):
         (options, args) = parser.parse_args()
 
     
-    event = EventData.EventData()
+    event = EventData.EventData(verbose=options.verbose)
 
     event.readFromFile(args[0])
 
