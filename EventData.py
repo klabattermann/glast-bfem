@@ -20,8 +20,9 @@ hist_list = [(layerInd, channel), ]
 class EventData :
 
 
-    def __init__ (self) :
+    def __init__ (self, verbose=0) :
         self.reset ()
+        self.verbose = verbose
 
     # ==============================================================
 
@@ -51,15 +52,17 @@ class EventData :
         data = struct.unpack('L', data_s)
         
         if data[0] == 0x23456789:
-            print "found FIFO header"
+            print "header FIFO found"
         
             data_s = fp.read(4)
             data_length = struct.unpack('L', data_s)[0]
-            print "ffh length", data_length
+            print "header length", data_length
 
             data_s = fp.read(4)
             data = struct.unpack('L', data_s)
-            print "ffh data", data[0]
+            cable_enable = data[0] & 0xff
+            print "header data %x enabled cables: %x" % (data[0], cable_enable) 
+
             
             if data_length != 3:
                 print "seek:", 8
@@ -78,21 +81,21 @@ class EventData :
         
         # try to read header
         self.decode_fifo_header(self.fp)
-        
 
+        verbose = self.verbose
         while 1:
 
             data_s = self.fp.read (4)
             if not data_s :
                 self.reset()
                 self.fp.close()
-                return
+                break
 
             data = struct.unpack('L', data_s)
 
             data0_16 = (data[0] >> 16) & 0xffff
             data1_16 = data[0] & 0xffff
-            print '  d %x  %x' % (data0_16, data1_16)
+            # print '  d %x  %x' % (data0_16, data1_16)
                         
 	
             if data0_16 == 0xbffe and data1_16 == 0xbfff:  # end-of-event
@@ -103,6 +106,12 @@ class EventData :
                 dataStruct.append(data0_16)
                 dataStruct.append(data1_16)
 
+        if dataStruct:
+            print "Incomplete event"
+            self.decode(dataStruct)
+            yield
+
+            
 		
     # ==============================================================
 
@@ -120,6 +129,8 @@ class EventData :
         
         self.eventNr = (data[1] & 0xffff) | ( (data[0] << 16) & 0xffff0000)
 
+        verbose = self.verbose
+        
         for data16 in data[2:] :
 
             # end of data flag            
@@ -135,8 +146,9 @@ class EventData :
 
                 hitAddr = data16 & 0x07ff
                 hitAddr = hitAddr - 64
-	
                 self.hitList.append((layerInd, hitAddr))
+                if verbose:
+                    print "hit cable %d layer %2d hit %4d " % (cableId, layerInd, hitAddr)
 
             elif tag == 0x0000 :         # controller
                 ctrlAddr = data16 >> 6
@@ -149,6 +161,11 @@ class EventData :
 
                 if not self.stat.has_key((cableId, layerInd)) :
                     self.stat[(cableId, layerInd)]  = [ctrlAddr,nrHits,-1,-1]
+
+                if verbose:
+                    print "GTRC cable %d layer %2d addr %2d #hits %d " % \
+                          (cableId, layerInd, ctrlAddr, nrHits)
+
 		    
             elif tag == 0x4000  :        #  error/tot flag
                 errorFlag = (data16 >> 10) & 0x1
@@ -157,8 +174,12 @@ class EventData :
                 if self.stat.has_key((cableId, layerInd)) :
                     self.stat[(cableId, layerInd)][2]  = tot
                     self.stat[(cableId, layerInd)][3]  = errorFlag
+
+                if verbose:
+                    print "TOT cable %d layer %2d error %d tot %d " % \
+                          (cableId, layerInd, errorFlag, tot)
             else:
-                print " error no key found "
+                print " error no key found %x" % data16
 
 
     # =====================================================================
