@@ -47,3 +47,41 @@ def qinTest (cable, tem, fee) :
     
     tem.temStatus()
     #tem.tkr_dumpFifo ("tkr", 0, 0)
+    
+
+
+#
+#  check all GTFE's using a checksum 
+#  
+#
+    
+def noqTest(cable,tem,fee):
+    tem.temDisableCable(-1)
+    tem.temEnableCable(cable)
+
+    # this isn't really needed but set it anyhow.
+    fee.readDir(0)
+    fee.maskAll(fee.allMsk)
+    fee.threshold(30)
+    fee.qinjAmpl(0)
+    fee.set(31,31,cable)
+    
+    tem.tkrCmd_rstGtrc(31,cable)
+    # all controllers on cable 0 are configured to read 0 GTFE's and don't # send checksum info. tem.tkrCmd_gtrcReg(31,0,0,0)
+    # this will tell the tem board that the controller is not sending the # checksum word.
+    tem.temSetCheckSum(0)
+
+    
+    # reset now the fifo and check if it is empty and then issue the trigger
+    tem.temRstDataFifo()
+    
+    tem.temStatus()
+    
+    tem.temTreq()
+    
+    print 'Trigger pulled\n'
+    
+    tem.temStatus()
+    
+    # and then dump the fifo
+    tem.tkr_dumpFifo('noqTest',0,0)
