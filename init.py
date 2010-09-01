@@ -38,7 +38,9 @@ tem.temRstDataFifo()
 tem.temRegister()
 fee = GtfeReg.GtfeReg(tem)
 
-qt.qinTest(0, tem, fee)
+qt.noqTest(0,tem,fee)
+
+#qt.qinTest(0, tem, fee)
 
 
 #close = tem.tkrVMEClose()
