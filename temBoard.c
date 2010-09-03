@@ -183,6 +183,7 @@ void temStatus() {
     status = tkr_rread(t_brdStat);
     cmd = tkr_rread(t_brdCntl);
 
+    printf("TEM STATUS\n");
     printf(" status %x\n", status);
     printf(" control %x\n", cmd);
   
@@ -203,7 +204,7 @@ void temStatus() {
     else if ( (status & TKR_FIFO_FULL) == 0 ) printf("is full");
     else if ( (status & TKR_FIFO_HAS_DATA) == TKR_FIFO_HAS_DATA) printf("has data");
     else printf("is out of sync ,%lx", status);
-    printf("\n");
+    printf("\n...STATUS END...\n");
 
         
 /*    unsigned long *status = t_brdStat;
@@ -239,17 +240,17 @@ void temStatus() {
 
 void temRegister()
 {
+    printf ("\nREGISTERS:\n");
     printf (" tcntlreg : %8x \n", *t_lcntlReg);
-    printf (" brdCntl  : %8x   %8x\n", *t_brdCntl, t_brdCntl);
-    printf (" brdStat  : %8x   %8x\n", *t_brdStat, t_brdStat);
+    printf (" brdCntl  : %8x   %8x\n", *t_brdCntl);
+    printf (" brdStat  : %8x   %8x\n", *t_brdStat);
     printf (" last 10  : %8x \n", *t_lastCntrl);
     printf (" last 32  : %8x \n", *(t_lastCntrl+1));
     printf (" last 54  : %8x \n", *(t_lastCntrl+2));
     printf (" last 76  : %8x \n", *(t_lastCntrl+3));
     printf (" cblen    : %8x \n", *t_cblen);
-    
-    
     printf (" cmd0    : %8x \n", *t_tkrCmd);
+    printf("\n");
 }
 
 /* ================================ */
@@ -290,22 +291,22 @@ void temR ()
     unsigned long regValue = 0;
     
     regValue = tkr_rread(t_brdCntl);
-    printf ("reset temR %x\n", regValue);
+    //printf ("reset temR %x\n", regValue);
     regValue &= ~0x2;
     tkr_rwrite_wait(t_brdCntl, regValue, 10);
 
     regValue = tkr_rread(t_brdCntl);
-    printf ("reset temR %x\n", regValue);
+    //printf ("reset temR %x\n", regValue);
     regValue |= 0x2;
     tkr_rwrite_wait(t_brdCntl, regValue, 10);
 
     regValue = tkr_rread(t_brdCntl);
-    printf ("reset temR %x\n", regValue);
+    //printf ("reset temR %x\n", regValue);
     regValue &= ~0x1;
     tkr_rwrite_wait(t_brdCntl, regValue, 10);
 
     regValue = tkr_rread(t_brdCntl);
-    printf ("reset temR %x\n", regValue);
+    //printf ("reset temR %x\n", regValue);
     regValue |= 0x1;
     tkr_rwrite_wait(t_brdCntl, regValue, 10);
 
