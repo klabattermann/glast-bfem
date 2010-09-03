@@ -72,13 +72,14 @@ int tkr_dumpFifo (char *fileName, int fileAppend, int writeL1tFifo)
         
         fwrite ( header, 4, 3, fp);
     }
-    printf ("Writing L1T Fifo");    
+        
   
     /* ------------------------------------------- */
     /*     Write L1T fifo                          */
     /* ------------------------------------------- */
     
     if ( writeL1tFifo == 1 ) {
+        printf ("Writing L1T Fifo");
         for ( i = 0; i < 20; i++ ) {
             data = *t_l1tFifo;
             fwrite ( &data, 4, 1, fp);
