@@ -1,13 +1,19 @@
 from time import sleep
+import GtfeReg
+import tkrTem as tem
 
+
+
+        
+        
 #
-#  inject charge into all GTFE's of one layer
+#   inject charge into all GTFE's of one layer
 #  
 #
 
 def qinTest(cable,tem,fee):
-    tem.temDisableCable(-1)
     tem.temEnableCable(cable)
+    tem.temEnabledCables()
 
     # this isn't really needed but set it anyhow.
     fee.readDir(0)
@@ -19,7 +25,14 @@ def qinTest(cable,tem,fee):
     tem.tkrCmd_rstGtrc(31,cable)
     
     tem.tkrCmd_rstGtfe(31,31,cable)
-
+    
+    
+    #Turn off CRC
+    tem.tkrCmd_gtrcReg(31,cable,31,0)
+    tem.temSetCheckSum(0)
+    tem.temGetCheckSum()
+    
+    
     # reset now the fifo and check if it is empty
     tem.temRstDataFifo()
     
@@ -29,16 +42,18 @@ def qinTest(cable,tem,fee):
     
     #strobe several times and check to see if there is data.
     tem.tkrCmd_strobe(31,31,cable)
+    
+    print'strobing...\n'
 
     sleep(1)
+    
     tem.temStatus()
     
     # and then dump the fifo
-    tem.tkr_dumpFifo('qinTest',0,0)
 
 
 #
-#  check all GTFE's using a checksum 
+#   check all GTFE's using a checksum 
 #  
 #
     
@@ -58,7 +73,9 @@ def noqTest(cable,tem,fee):
     # send checksum info. tem.tkrCmd_gtrcReg(31,0,0,0)
     # this will tell the tem board that the controller is not sending the 
     # checksum word.
+    tem.tkrCmd_gtrcReg(31,cable,0,0)
     tem.temSetCheckSum(0)
+    tem.temGetCheckSum()
 
     
     # reset now the fifo and check if it is empty and then issue the trigger
@@ -68,14 +85,26 @@ def noqTest(cable,tem,fee):
     
     tem.temTreq()
     
-    print 'Trigger pulled\n'
+    print'Trigger pulled\n'
     
     tem.temStatus()
     
     # and then dump the fifo
     tem.tkr_dumpFifo('noqTest',0,0)
+
     
-    
+#
+#   qLoop runs the qinTest over all the cables
+#
+#
+def qLoop():
+    fee = GtfeReg.GtfeReg(tem)
+    for cable in range(8):
+        qinTest(cable, tem, fee)
+        tem.tkr_dumpFifo('qInjTestFifoCbl%d'%cable,0,0)
+        tem.temDisableCable(cable)
+
+
     
 #
 #  Depricated charge injection since I don't understand what all the functions do 

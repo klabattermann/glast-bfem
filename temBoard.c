@@ -25,7 +25,6 @@ void temSetCheckSum (int value)
 
     *t_cblen = tmpCblen;
     
-    printf(" Check sum: %x \n", tmpCblen);
     
 }
 
@@ -36,11 +35,11 @@ int temGetCheckSum ()
     unsigned long tmpCblen = *t_cblen;
     
     if ( (tmpCblen & 0x8000) != 0 ) {
-        printf(" check sum is on \n");
+        printf(" check sum is on \n\n");
         return 1;
     }
     else {
-        printf(" check sum is off \n");
+        printf(" check sum is off \n\n");
         return 0;
     }    
 }
@@ -190,21 +189,21 @@ void temStatus() {
     if ( (status & TKR_STATUS) == 0 ) printf("\nFPGA program error");
     if ( (status & TKR_CONF_DONE) == 0 ) printf("\nFPGA not programmed");
     
-    printf("\nThe board is ");
+    printf("The board is ");
     if ( (cmd & 1) != 0 ) printf("not ");
-    printf("reset");
+    printf("reset\n");
     
-    printf("\nTKRrigger is  ");
+    printf("TKRrigger is  ");
     if ( (cmd & TKR_RESET) == 0 ) printf("not ");
-    printf("reset");
+    printf("reset\n");
     
-    printf("\nFIFO ");
-    if ( (status & TKR_FIFO_EMPTY) == 0 ) printf("is empty");
-    else if ( (status & TKR_FIFO_HALF_FULL) == 0) printf("is half full");
-    else if ( (status & TKR_FIFO_FULL) == 0 ) printf("is full");
-    else if ( (status & TKR_FIFO_HAS_DATA) == TKR_FIFO_HAS_DATA) printf("has data");
-    else printf("is out of sync ,%lx", status);
-    printf("\n...STATUS END...\n");
+    printf("FIFO ");
+    if ( (status & TKR_FIFO_EMPTY) == 0 ) printf("is empty\n");
+    else if ( (status & TKR_FIFO_HALF_FULL) == 0) printf("is half full\n");
+    else if ( (status & TKR_FIFO_FULL) == 0 ) printf("is full\n");
+    else if ( (status & TKR_FIFO_HAS_DATA) == TKR_FIFO_HAS_DATA) printf("has data\n");
+    else printf("is out of sync ,%lx\n", status);
+    printf("...STATUS END...\n\n");
 
         
 /*    unsigned long *status = t_brdStat;
@@ -240,7 +239,7 @@ void temStatus() {
 
 void temRegister()
 {
-    printf ("\nREGISTERS:\n");
+    printf ("REGISTERS:\n");
     printf (" tcntlreg : %8x \n", *t_lcntlReg);
     printf (" brdCntl  : %8x   %8x\n", *t_brdCntl);
     printf (" brdStat  : %8x   %8x\n", *t_brdStat);
@@ -249,8 +248,7 @@ void temRegister()
     printf (" last 54  : %8x \n", *(t_lastCntrl+2));
     printf (" last 76  : %8x \n", *(t_lastCntrl+3));
     printf (" cblen    : %8x \n", *t_cblen);
-    printf (" cmd0    : %8x \n", *t_tkrCmd);
-    printf("\n");
+    printf (" cmd0    : %8x \n\n", *t_tkrCmd);
 }
 
 /* ================================ */
@@ -276,7 +274,7 @@ void temReset()
     unsigned long origCmd = 0;
     
     origCmd = tkr_rread(t_brdCntl);    
-    printf ("tem reset: brd-cntl = %x\n", origCmd);
+    printf ("TEM Reset: brd-cntl = %x\n\n", origCmd);
     
     tkr_rwrite_wait(t_brdCntl, origCmd | 0x4, 10);
     tkr_rwrite_wait(t_brdCntl, origCmd | 0x1, 10);
@@ -310,7 +308,7 @@ void temR ()
     regValue |= 0x1;
     tkr_rwrite_wait(t_brdCntl, regValue, 10);
 
-    printf ("reset temR %x\n", tkr_rread(t_brdCntl));
+    printf ("Reset temR %x\n\n", tkr_rread(t_brdCntl));
 }
 
 
@@ -328,7 +326,7 @@ void temTreq ()
   tstMisc = tkr_rread(t_tstMisc);
   tkr_rwrite_wait(t_tstMisc, tstMisc &= ~0x80, 10);
   tstMisc = tkr_rread(t_tstMisc);
-  printf ("tstsMisc: %x\n",  tstMisc);
+  printf ("tstsMisc: %x\n\n",  tstMisc);
     
   //tkr_rwrite(t_tstMisc, tkr_rread(t_tstMisc) |= 0x80);
   //tkr_rwrite(t_tstMisc, tkr_rread(t_tstMisc) &= ~0x80);
