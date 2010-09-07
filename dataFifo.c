@@ -46,6 +46,7 @@ int tkr_dumpFifo (char *fileName, int fileAppend, int writeL1tFifo)
         printf("unable to create %s\n", fileName);
         return(-1);
     }
+    printf ("Dumping FIFO\n");
     printf ("file mode : %s \n", fileMode);
     
     
@@ -104,11 +105,10 @@ int tkr_dumpFifo (char *fileName, int fileAppend, int writeL1tFifo)
     }
     
     printf (" FIFO count = %d \n", count);
-    
+    printf ("FIFO DUMP COMPLETE\n\n");
     fclose(fp);
     
     return 0;
-    
 }
 
 

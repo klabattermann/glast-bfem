@@ -175,7 +175,7 @@ int tkrLoadL1tFifo(char *fileName)
         return(-3);
     }
      
-    printf ("bits=%ld  %ld\n", bits, bits1);
+    printf (" bits=%ld  %ld\n", bits, bits1);
     return(0);
     
 }
@@ -195,7 +195,7 @@ int tkrLoadFinalize ()
     tmpCntl = tkr_rread(t_brdCntl) | 0x1;
     tkr_rwrite(t_brdCntl, tmpCntl);
     
-    printf (" finalize loading %x\n",  tkr_rread(t_brdCntl));
+    printf ("Finalize loading %x\n\n",  tkr_rread(t_brdCntl));
     
     return 0;
 }
