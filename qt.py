@@ -3,8 +3,7 @@
 """
 from time import sleep
 
-class QTest:
-    
+
 def qinTest(cable, tem, fee, cablename):
     """Inject charge into all GTFE's of one cable"""
     tem.temDisableCable(-1)
