@@ -4,8 +4,8 @@ This is the main function for our tests it pulls together the
 other python scripts used to interact with the BFEM module 
 """
 import sys
-import Init
-import QTest
+import init
+import qt
 import tkrTem
 import GtfeReg
 
