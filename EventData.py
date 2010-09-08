@@ -1,4 +1,10 @@
+#!/usr/bin/env python2.6
+"""
+Read the BFEM event data from binary file
 
+hist_list = [(layerInd, channel), ]
+
+"""
 import struct
 import string
 import array
@@ -6,27 +12,14 @@ import struct
 import sys
 
 
-
-"""
-Read the BFEM event data from binary file
-
-hist_list = [(layerInd, channel), ]
-
-"""
-
-
-
-
 class EventData :
-
-
-    def __init__ (self, verbose=0) :
+    def __init__ (self, verbose=0):
         self.reset ()
         self.verbose = verbose
 
     # ==============================================================
 
-    def reset (self) :
+    def reset(self):
 	
         self.eventNr = -1
         self.hitList = []
@@ -35,7 +28,7 @@ class EventData :
 
     # ==============================================================
 
-    def readFromFile (self, fileName) :
+    def readFromFile(self, fileName):
 
         try:
             self.fp = open (fileName, "rb")
@@ -74,7 +67,7 @@ class EventData :
         return 
 
 
-    def __iter__ (self) :
+    def __iter__ (self):
 
 
         dataStruct = array.array('L')
@@ -85,7 +78,7 @@ class EventData :
         verbose = self.verbose
         while 1:
 
-            data_s = self.fp.read (4)
+            data_s = self.fp.read(4)
             if not data_s :
                 self.reset()
                 self.fp.close()
@@ -116,12 +109,11 @@ class EventData :
     # ==============================================================
 
 
-    def decode (self, data):
+    def decode(self, data):
         """
 
 
         """
-        
         self.reset()
 
         # for every GTRC header increase the layerInd by 1
@@ -131,7 +123,7 @@ class EventData :
 
         verbose = self.verbose
         
-        for data16 in data[2:] :
+        for data16 in data[2:]:
 
             # end of data flag            
             tag = data16 & 0xc000    
@@ -140,8 +132,8 @@ class EventData :
             #dummy = data16 & 0x7ff
             #print "%x %d %x" % (tag, cableId, dummy)
 
-            if tag == 0x8000 :          # hit 
-                if data16 == 0x87ff :   # fill Byte
+            if tag == 0x8000:          # hit 
+                if data16 == 0x87ff:   # fill Byte
                     continue
 
                 hitAddr = data16 & 0x07ff
@@ -150,7 +142,7 @@ class EventData :
                 if verbose:
                     print "hit cable %d layer %2d hit %4d " % (cableId, layerInd, hitAddr)
 
-            elif tag == 0x0000 :         # controller
+            elif tag == 0x0000:         # controller
                 ctrlAddr = data16 >> 6
                 ctrlAddr = ctrlAddr & 0x1f
 
@@ -159,19 +151,19 @@ class EventData :
                 layerInd = layerInd + 1
                 #print "  ", ctrlAddr, cableId, layerInd
 
-                if not self.stat.has_key((cableId, layerInd)) :
-                    self.stat[(cableId, layerInd)]  = [ctrlAddr,nrHits,-1,-1]
+                if not self.stat.has_key((cableId, layerInd)):
+                    self.stat[(cableId, layerInd)] = [ctrlAddr,nrHits,-1,-1]
 
                 if verbose:
                     print "GTRC cable %d layer %2d addr %2d #hits %d " % \
                           (cableId, layerInd, ctrlAddr, nrHits)
 
 		    
-            elif tag == 0x4000  :        #  error/tot flag
+            elif tag == 0x4000:        #  error/tot flag
                 errorFlag = (data16 >> 10) & 0x1
                 tot = data16 & 0x03ff
 
-                if self.stat.has_key((cableId, layerInd)) :
+                if self.stat.has_key((cableId, layerInd)):
                     self.stat[(cableId, layerInd)][2]  = tot
                     self.stat[(cableId, layerInd)][3]  = errorFlag
 
@@ -185,7 +177,7 @@ class EventData :
     # =====================================================================
 
 
-    def status (self, header_only=False) :
+    def status(self, header_only = False):
         
         print " ==== status  event nr:", self.eventNr, " nr of hist:", len(self.hitList), \
               " layers:", len(self.stat)
@@ -197,7 +189,7 @@ class EventData :
         keyList.sort()
 
         print " (gtrc-adrs, nrHits, layerInd, cableId,    ToT, erroFlag)"
-        for key in keyList :
+        for key in keyList:
             print "gtrc  ", self.stat[key][0], self.stat[key][1], key[1], key[0], "     ", \
                   self.stat[key][2], self.stat[key][3]
 
@@ -205,7 +197,7 @@ class EventData :
     # ============================================================================================
 
 
-    def openTup (self, fileName) :
+    def openTup(self, fileName):
 	
         try:
             self.fpTup = open (fileName, "w")
@@ -214,12 +206,12 @@ class EventData :
             sys.exit (4)	
 
 
-    def writeTup (self) :
+    def writeTup(self):
 
         for hit in self.hitList :
             self.fpTup.write("%d %d %d\n" % (self.eventNr, hit[0], hit[1]))
 	
-    def closeTup (self) :
+    def closeTup(self):
         self.fpTup.close()
 
 
@@ -228,19 +220,19 @@ class EventData :
     # =========================================
 
 
-    def printHitList (self) :
+    def printHitList(self):
 
         layerNr = -1
         hitsPrinted = 0
 
-        for hit in self.hitList :
+        for hit in self.hitList:
 
-            if hit[0] != layerNr :
+            if hit[0] != layerNr:
                 layerNr = hit[0]
                 hitsPrinted = 1
                 sys.stdout.write("\n Layer %d  \n        %4d " % (hit[0], hit[1]))
             else:	    
-                if hitsPrinted == 14 :
+                if hitsPrinted == 14:
                     sys.stdout.write("\n        ")
                     hitsPrinted = 0
 

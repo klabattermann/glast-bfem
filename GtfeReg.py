@@ -1,8 +1,10 @@
-
+#!/usr/bin/env python2.6
+"""
+"""
 import array
 
 
-class GtfeReg :
+class GtfeReg:
 
     calibMsk = 1
     chanMsk = 2
@@ -20,24 +22,24 @@ class GtfeReg :
     #    mask for all channels
     # =======================================================
     
-    def maskAll (self, maskType) : 
+    def maskAll(self, maskType): 
 
         print maskType, self.trigMsk, maskType & self.trigMsk
         if maskType & self.chanMsk:
             self.reg[2] = self.reg[3] = 0x0
-        if maskType & self.trigMsk :
+        if maskType & self.trigMsk:
             self.reg[4] = self.reg[5] = 0x0
-        if maskType & self.calibMsk : 
+        if maskType & self.calibMsk: 
             self.reg[0] = self.reg[1] = 0x0
 
-    def unMaskAll (self, maskType) : 
+    def unMaskAll(self, maskType): 
 
         print maskType, self.trigMsk, maskType & self.trigMsk
         if maskType & self.chanMsk:
             self.reg[2] = self.reg[3] = 0xffffffff
-        if maskType & self.trigMsk :
+        if maskType & self.trigMsk:
             self.reg[4] = self.reg[5] = 0xffffffff
-        if maskType & self.calibMsk : 
+        if maskType & self.calibMsk: 
             self.reg[0] = self.reg[1] = 0xffffffff
             
     # =======================================================
@@ -60,9 +62,9 @@ class GtfeReg :
             self.reg[ind] = self.reg[ind] & tmp 
 
 
-    def maskRange (self, maskType, start, stop, step) :
+    def maskRange(self, maskType, start, stop, step):
 
-        for chan in range (start, stop+1, step):
+        for chan in range(start, stop+1, step):
             self.mask(maskType, chan)
 
     # =======================================================
@@ -82,9 +84,9 @@ class GtfeReg :
         if maskType & self.calibMsk:
             self.reg[ind] = self.reg[ind] | tmp 
 
-    def unMaskRange (self, maskType, start, stop, step) :
+    def unMaskRange(self, maskType, start, stop, step):
 
-        for chan in range (start, stop+1, step):
+        for chan in range(start, stop+1, step):
             self.unMask(maskType, chan)
 
     # =======================================================
@@ -98,7 +100,7 @@ class GtfeReg :
         self.calDac = value
 
     def readDir (self, value):
-        if value == 0 :
+        if value == 0:
             self.side = 0
         else:
             self.side = 1
@@ -116,12 +118,11 @@ class GtfeReg :
     def show(self):
         print '%x %x %x %x %x %x' %(self.reg[0],self.reg[1],
                                     self.reg[2],self.reg[3],self.reg[4],self.reg[5])
-        print "dac thres = %d,  calib %d, side %d" % (self.thresDac, self.calDac, self.side)
+        print 'dac thres = %d,  calib %d, side %d' % (self.thresDac, self.calDac, self.side)
         
 
 
 if __name__ == '__main__':
-
     a = GtfeReg()
     a.unMaskRange(a.trigMsk, 0,63,1)
     a.threshold(10)

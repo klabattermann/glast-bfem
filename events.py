@@ -1,17 +1,13 @@
 #!/usr/local/bin/python
-
+"""
+"""
 import EventData
 #import getopt
 import sys
 from optparse import OptionParser
 
 
-# ================================================
-#
-# ================================================
-
 def main(argv=None):
-
     parser = OptionParser()
 
     parser.add_option("--tup", help="output dir")
@@ -59,10 +55,10 @@ def main(argv=None):
         #if options.tup:
         #    event.writeTup()
 
-        if options.hits :
+        if options.hits:
             event.printHitList ()
             command = raw_input ("q to quit > ")
-            if command == 'q' :
+            if command == 'q':
                 break
             
     # -------------------------------------
@@ -71,10 +67,7 @@ def main(argv=None):
     #    event.closeTup()
 
 
-
-
-if __name__ == '__main__' :
-
+if __name__ == '__main__':
     rc = main()
     sys.exit(rc)
 
