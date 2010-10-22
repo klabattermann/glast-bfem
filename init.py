@@ -12,22 +12,22 @@ import subprocess
 
 def resman():
 	#must run RESMAN to remove sys.fail from VME board before initializing VME and loading FIFO
-	try:
+   try:
   		subprocess.check_call(['resman/Resman.exe', '-o'])
-	except OSError, e:
-  		print >>sys.stderr, 'Execution failed:', e
-  		sys.exit()
+   except OSError, e:
+  	    print >>sys.stderr, 'Execution failed:', e
+  	    sys.exit()
   		
   		
 def load(tem):
-	tem.tkrVMEInit(0x8000000)
+    tem.tkrVMEInit(0x8000000)
 	
-	status = tem.tkrLoadDataFifo('conf/tkrrdout2_1.ttf')
-	print 'Status FPGA DATA: ',status,'\n'
+    status = tem.tkrLoadDataFifo('conf/tkrrdout2_1.ttf')
+    print 'Status FPGA DATA: ',status,'\n'
 	
-	status = tem.tkrLoadL1tFifo('conf/l1t2_1.ttf')
-	print 'Status L1t FIFO: ',status,'\n'
+    status = tem.tkrLoadL1tFifo('conf/l1t2_1.ttf')
+    print 'Status L1t FIFO: ',status,'\n'
 	
-	tem.tkrLoadFinalize()
+    tem.tkrLoadFinalize()
 	
-	#Success
+    #Success
