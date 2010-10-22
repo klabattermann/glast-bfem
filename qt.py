@@ -4,10 +4,10 @@
 from time import sleep
 
 
-def qinTest(cable, tem, fee, cablename):
+def q_inj_test(cable, tem, fee, cablename):
     """Inject charge into all GTFE's of one cable"""
-    tem.temDisableCable(-1)
-    sleep(1)
+    # tem.temDisableCable(-1)
+    # sleep(1)
     tem.temEnableCable(cable)
 
     if cable in [0,3,5,6]:
@@ -20,15 +20,15 @@ def qinTest(cable, tem, fee, cablename):
     # fee.qinjAmpl(80)
     # fee.set(31,31,cable)
     
-    tem.tkrCmd_rstGtrc(31, cable)
-    tem.tkrCmd_rstGtfe(31, 31, cable)
-    
-    
     #Turn off CRC
     tem.tkrCmd_gtrcReg(31, cable, 31, 0)
     tem.temSetCheckSum(0)
     tem.temGetCheckSum()
     
+    tem.tkrCmd_rstGtrc(31, cable)
+    sleep(1)
+    tem.tkrCmd_rstGtfe(31, 31, cable)
+        
     # reset now the fifo and check if it is empty
     tem.temRstDataFifo()
     
@@ -43,10 +43,11 @@ def qinTest(cable, tem, fee, cablename):
     sleep(1)
     
     tem.temStatus()
+    sleep(1)
     tem.tkr_dumpFifo(cablename, 0, 0)
 
 
-def noqTest(cable, tem, fee, cablename):
+def no_q_test(cable, tem, fee, cablename):
     """Check all GTFE's using a checksum"""
     tem.temDisableCable(-1)
     tem.temEnableCable(cable)
