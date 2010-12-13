@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.6
+#!/usr/bin/env python2.7
 """
 UCSC SCIPP / NASA
 Intialization script for GLAST. Starts VME and loads FIFO.
