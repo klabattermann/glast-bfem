@@ -4,6 +4,59 @@
 from time import sleep
 
 
+def tc(tem, fee, cable):
+    tem.temDisableCable(-1)
+    tem.temEnableCable(cable)
+        
+    tem.tkrCmd_rstGtrc(31,cable)
+    tem.tkrCmd_gtrcReg(31,cable,25,0)
+
+    sleep(0.5)
+
+    tem.tkrCmd_rstGtfe(31,31,cable)
+
+    #
+    # test 1:  all masks disabled 
+    #
+
+    fee.readDir(0)        
+    fee.maskAll(fee.allMsk)
+    fee.threshold(30)
+    fee.qinjAmpl(60)
+    fee.set(31,31,cable)
+    fee.show()
+
+    tem.tkrCmd_rstGtfeFifo(31,31,cable)
+
+    sleep(0.5)
+
+    #tem.temTreq()
+    #tem.tkr_dumpFifo ("tkr", 0, 0)
+
+    #
+    # test 2:  trigger mask is on
+    #
+
+    fee.unMaskAll(fee.trigMsk)
+    fee.set(31,31,cable)
+
+    sleep(0.2)
+
+    #tem.temTreq()
+    #tem.tkr_dumpFifo ("tkr", 1, 0)
+
+    #
+    # test 3: inject charge
+    #
+
+    fee.maskAll(fee.allMsk)
+    fee.unMask(fee.calibMsk | fee.chanMsk, 12)
+    fee.set(31,31,cable)
+    sleep(0.2)
+
+    tem.tkrCmd_strobe(31,31,cable)
+    tem.tkr_dumpFifo ("tkr", 0, 0)
+
 def q_inj_test(cable, tem, fee, cablename):
     """Inject charge into all GTFE's of one cable"""
     # tem.temDisableCable(-1)

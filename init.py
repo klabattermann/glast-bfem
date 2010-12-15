@@ -21,6 +21,7 @@ def resman():
   		
 def load(tem):
     tem.tkrVMEInit(0x8000000)
+    print 'open VXI lib: \n'
 	
     status = tem.tkrLoadDataFifo('conf/tkrrdout2_1.ttf')
     print 'Status FPGA DATA: ',status,'\n'
@@ -29,5 +30,5 @@ def load(tem):
     print 'Status L1t FIFO: ',status,'\n'
 	
     tem.tkrLoadFinalize()
-	
+
     #Success
