@@ -18,17 +18,13 @@ def resman():
   	    print >>sys.stderr, 'Execution failed:', e
   	    sys.exit()
   		
-  		
 def load(tem):
     tem.tkrVMEInit(0x8000000)
     print 'open VXI lib: \n'
-	
     status = tem.tkrLoadDataFifo('conf/tkrrdout2_1.ttf')
     print 'Status FPGA DATA: ',status,'\n'
-	
     status = tem.tkrLoadL1tFifo('conf/l1t2_1.ttf')
     print 'Status L1t FIFO: ',status,'\n'
-	
     tem.tkrLoadFinalize()
 
     #Success
