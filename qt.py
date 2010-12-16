@@ -1,60 +1,49 @@
 #!/usr/bin/env python2.7
 """
+This script outlines some of the charge injection functions used to test the bfem.
 """
 from time import sleep
 
-
-def tc(tem, fee, cable):
+def tc(tem, fee, cable, filename):
     tem.temDisableCable(-1)
     tem.temEnableCable(cable)
-        
     tem.tkrCmd_rstGtrc(31,cable)
     tem.tkrCmd_gtrcReg(31,cable,25,0)
-
     sleep(0.5)
-
     tem.tkrCmd_rstGtfe(31,31,cable)
 
     #
     # test 1:  all masks disabled 
     #
-
     fee.readDir(0)        
     fee.maskAll(fee.allMsk)
     fee.threshold(30)
     fee.qinjAmpl(60)
     fee.set(31,31,cable)
     fee.show()
-
     tem.tkrCmd_rstGtfeFifo(31,31,cable)
-
     sleep(0.5)
-
     #tem.temTreq()
     #tem.tkr_dumpFifo ("tkr", 0, 0)
 
     #
     # test 2:  trigger mask is on
     #
-
     fee.unMaskAll(fee.trigMsk)
     fee.set(31,31,cable)
-
     sleep(0.2)
-
     #tem.temTreq()
     #tem.tkr_dumpFifo ("tkr", 1, 0)
 
     #
     # test 3: inject charge
     #
-
     fee.maskAll(fee.allMsk)
     fee.unMask(fee.calibMsk | fee.chanMsk, 12)
     fee.set(31,31,cable)
     sleep(0.2)
-
     tem.tkrCmd_strobe(31,31,cable)
+    sleep(0.5)
     tem.tkr_dumpFifo ("tkr", 0, 0)
 
 def q_inj_test(cable, tem, fee, cablename):
@@ -84,17 +73,13 @@ def q_inj_test(cable, tem, fee, cablename):
         
     # reset now the fifo and check if it is empty
     tem.temRstDataFifo()
-    
     sleep(1)
     tem.temStatus()
     
     #strobe several times and check to see if there is data.
     tem.tkrCmd_strobe(31, 31, cable)
-    
     print'strobing...\n'
-
     sleep(1)
-    
     tem.temStatus()
     sleep(1)
     tem.tkr_dumpFifo(cablename, 0, 0)

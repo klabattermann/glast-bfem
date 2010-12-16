@@ -146,7 +146,7 @@ void temLastGtrc (int addr, int cable)
    Resets
    ------------------- */
 
-void temRstPulse ()
+void temRstPulse()
 {
     tkr_rwrite(t_brdCntl, 0x1b07);
     tkr_rwrite(t_brdCntl, 0x1b03);   

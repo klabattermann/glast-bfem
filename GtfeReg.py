@@ -3,9 +3,7 @@
 """
 import array
 
-
 class GtfeReg:
-
     calibMsk = 1
     chanMsk = 2
     trigMsk = 4
@@ -21,9 +19,7 @@ class GtfeReg:
     # =======================================================
     #    mask for all channels
     # =======================================================
-    
     def maskAll(self, maskType): 
-
         print maskType, self.trigMsk, maskType & self.trigMsk
         if maskType & self.chanMsk:
             self.reg[2] = self.reg[3] = 0x0
@@ -33,7 +29,6 @@ class GtfeReg:
             self.reg[0] = self.reg[1] = 0x0
 
     def unMaskAll(self, maskType): 
-
         print maskType, self.trigMsk, maskType & self.trigMsk
         if maskType & self.chanMsk:
             self.reg[2] = self.reg[3] = 0xffffffff
@@ -45,15 +40,11 @@ class GtfeReg:
     # =======================================================
     #    mask single channels or range of channels
     # =======================================================
-
-
     def mask(self, maskType, chan):
-       
         ind = chan / 32
         shift = 31 - (chan % 32)
         tmp = 0x1 << shift
         tmp = ~tmp
-
         if maskType & self.chanMsk:
             self.reg[ind+2] = self.reg[ind+2] & tmp 
         if maskType & self.trigMsk:
@@ -61,22 +52,17 @@ class GtfeReg:
         if maskType & self.calibMsk:
             self.reg[ind] = self.reg[ind] & tmp 
 
-
     def maskRange(self, maskType, start, stop, step):
-
         for chan in range(start, stop+1, step):
             self.mask(maskType, chan)
 
     # =======================================================
     #    un-mask single channels or range of channels
     # =======================================================
-    
     def unMask(self, maskType, chan):
-       
         ind = chan / 32
         shift = 31 - (chan % 32)
         tmp = 0x1 << shift
-      
         if maskType & self.chanMsk:
             self.reg[ind+2] = self.reg[ind+2] | tmp 
         if maskType & self.trigMsk:
@@ -85,14 +71,12 @@ class GtfeReg:
             self.reg[ind] = self.reg[ind] | tmp 
 
     def unMaskRange(self, maskType, start, stop, step):
-
         for chan in range(start, stop+1, step):
             self.unMask(maskType, chan)
 
     # =======================================================
     #    dac's and directions
     # =======================================================
-
     def threshold (self, value):
         self.thresDac = value
 
@@ -108,8 +92,6 @@ class GtfeReg:
     # ==============================================
     #
     # ==============================================
-
-
     def set(self, gtfeAdrs, gtrcAdrs, cable):
         self.t.tkrCmd_gtfeReg(gtfeAdrs, gtrcAdrs, cable, self.calDac, self.thresDac,
                               self.side, self.reg[0], self.reg[1],
@@ -120,8 +102,6 @@ class GtfeReg:
                                     self.reg[2],self.reg[3],self.reg[4],self.reg[5])
         print 'dac thres = %d,  calib %d, side %d' % (self.thresDac, self.calDac, self.side)
         
-
-
 if __name__ == '__main__':
     a = GtfeReg()
     a.unMaskRange(a.trigMsk, 0,63,1)
